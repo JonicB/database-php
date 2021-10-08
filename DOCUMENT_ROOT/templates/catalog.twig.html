@@ -1,0 +1,65 @@
+<ul>
+    <li><a href="?page=listorders">Список заказов</a></li>
+    <li><a href="?page=listclients">Список клиентов</a></li>
+    <li><a href="?page=catalog">Каталог товаров</a></li>
+</ul>
+<form method="get" action="?page=catalog">
+    <input type="hidden" name="page" value="catalog">
+    <div>
+        <span>В названии есть: </span>
+        <input type="text" name="itemname">
+    </div>
+    <div>
+        <span>В описании есть: </span>
+        <input type="text" name="description">
+    </div>
+    <div>
+        <span>Нижняя граница цены: </span>
+        <input type="number" name="down_price">
+    </div>
+    <div>
+        <span>Верхняя граница цены: </span>
+        <input type="number" name="up_price">
+    </div>
+    <div>
+        <span>Страница: </span>
+        <input type="number" value=1 name="limit">
+    </div>
+    <div>
+        <input type="submit" value="Найти">
+    </div>
+</form>
+{{message}}
+{% if goods|length >0 %}
+<table border=1>
+    <tr>
+        <td>ID товара</td>
+        <td>Название</td>
+        <td>Описание</td>
+        <td>Цена</td>
+        <td>Заказан раз</td>
+    </tr>
+    {% for good in goods %}
+    <tr>
+        <td>{{ good.item_id }}</td>
+        <td>{{ good.itemname }}</td>
+        <td>{{ good.description }}</td>
+        <td>{{ good.price }}</td>
+        <td>{{ good.times }}</td>
+        <td>
+            <form method="post" action="?page=editcatalogitem&item_id={{good.item_id}}">
+                <input type="submit" value="Редактировать"></form>
+        </td>
+        <td>
+            <form method="post" action="?page=deletecatalogitem&item_id={{good.item_id}}">
+                <input type="submit" value="Удалить"></form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+По вашему запросу ничего не найдено
+{% endif %}
+<form method="post" action="?page=addcatalogitem">
+    <input type="submit" value="Добавить товар">
+</form>

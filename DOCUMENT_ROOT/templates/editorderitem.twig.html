@@ -1,0 +1,28 @@
+{% if info.ok is defined %}
+<meta http-equiv="refresh" content="0; ?page=orderinfo&oid={{ info.oid }}">
+{% endif %}
+<ul>
+    <li><a href="?page=listorders">Список заказов</a></li>
+    <li><a href="?page=listclients">Список клиентов</a></li>
+    <li><a href="?page=catalog">Каталог товаров</a></li>
+</ul>
+{% if info.oid is defined %}
+{% if info.item_id is defined %}
+Редактирование количества товаров
+<form method="post" action="?page=editorderitem&oid={{info.oid}}&item_id={{info.item_id}}">
+    <table border=1>
+        <tr>
+            <td>Товар</td>
+            <td>{{info.itemname}}</td>
+        </tr>
+        <tr>
+            <td>Количество</td>
+            <td><input type="number" name="quantity" value={{info.quantity}}></td>
+        </tr>
+    </table>
+    <input type="submit" value="Изменить">
+</form>
+{% endif %}{% endif %}
+{% if info.message is defined %}
+{{info.message}}
+{% endif %}

@@ -1,0 +1,67 @@
+<ul>
+    <li><a href="?page=listorders">Список заказов</a></li>
+    <li><a href="?page=listclients">Список клиентов</a></li>
+    <li><a href="?page=catalog">Каталог товаров</a></li>
+</ul>
+{% if order_info.oid is defined %}
+Заказ номер {{ order_info.order_num }}
+<table border=1>
+    <tr>
+        <td>ID заказа</td>
+        <td>{{ order_info.oid }}</td>
+    </tr>
+    <tr>
+        <td>Номер заказа</td>
+        <td>{{ order_info.order_num }}</td>
+    </tr>
+    <tr>
+        <td>Дата заказа</td>
+        <td>{{ order_info.order_date }}</td>
+    </tr>
+    <tr>
+        <td>Клиент</td>
+        <td>{{ order_info.client }}</td>
+    </tr>
+    <tr>
+        <td>Количество товаров</td>
+        <td>{{ order_info.quantity }}</td>
+    </tr>
+    <tr>
+        <td>Общая стоимость</td>
+        <td>{{ order_info.price|round(1) }}</td>
+    </tr>
+</table>
+
+<table border=1>
+    <tr>
+        <td>ID товара</td>
+        <td>Название товара</td>
+        <td>Количество в заказе</td>
+        <td>Описание</td>
+        <td>Цена</td>
+    </tr>
+    {% for good in goods %}
+    <tr>
+        <td>{{ good.item_id }}</td>
+        <td>{{ good.itemname }}</td>
+        <td>{{ good.quantity }}</td>
+        <td>{{ good.description }}</td>
+        <td>{{ good.price|round(1) }}</td>
+        <td><form method="post" action="?page=editorderitem&oid={{order_info.oid}}&item_id={{good.item_id}}">
+            <input type="submit" value="Редактировать">
+        </form></td>
+        <td><form method="post" action="?page=deleteorderitem&oid={{order_info.oid}}&item_id={{good.item_id}}">
+            <input type="submit" value="Удалить">
+        </form></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<form method="post" action="?page=addorderitem">
+    <input type="hidden" name="oid" value={{ order_info.oid }}>
+    <input type="submit" value="Добавить товар">
+</form>
+{% endif %}
+{% if order_info.message is defined %}
+{{ order_info.message }}
+{% endif %}

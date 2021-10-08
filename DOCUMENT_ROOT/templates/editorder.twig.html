@@ -1,0 +1,40 @@
+{% if order_info.ok is defined %}
+<meta http-equiv="refresh" content="0; ?page=orderinfo&oid={{ order_info.oid }}">
+{% endif %}
+<ul>
+    <li><a href="?page=listorders">Список заказов</a></li>
+    <li><a href="?page=listclients">Список клиентов</a></li>
+    <li><a href="?page=catalog">Каталог товаров</a></li>
+</ul>
+{% if order_info.oid is defined %}
+Изменить заказ номер {{order_info.order_num}}
+
+<form method="post" action="?page=editorder&oid={{ order_info.oid }}">
+    <input type="hidden" value="{{ order_info.oid }}" name="oid">
+    <table border=1>
+        <tr>
+            <td>Номер заказа</td>
+            <td><input type="number" value="{{ order_info.order_num }}" name="order_num"></td>
+        </tr>
+        <tr>
+            <td>Дата заказа</td>
+            <td><input type="date" value="{{ order_info.order_date }}" name="order_date" placeholder="yyyy-mm-dd"></td>
+        </tr>
+        <tr>
+            <td>Клиент</td>
+            <td>
+                <select class="form-select" name="client_id">
+                    <option value={{ order_info.client_id }} selected>{{ order_info.client }}</option>
+                    {% for client in clients %}
+                    {% if client.ID != order_info.client_id %}
+                        <option value={{ client.ID }}>{{ client.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Изменить">
+</form>
+{% endif %}
+{{ order_info.message }}

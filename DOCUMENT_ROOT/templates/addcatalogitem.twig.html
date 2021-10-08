@@ -1,0 +1,38 @@
+{% if info.ok is defined %}
+<meta http-equiv="refresh" content="0; ?page=catalog">
+{% endif %}
+<ul>
+    <li><a href="?page=listorders">Список заказов</a></li>
+    <li><a href="?page=listclients">Список клиентов</a></li>
+    <li><a href="?page=catalog">Каталог товаров</a></li>
+</ul>
+Добавление товара
+<form method="post" action="?page=addcatalogitem">
+    <table border=1>
+        <tr>
+            <td>Название</td>
+            <td><input type="text" name="itemname"
+                 {% if info.values.itemname is defined %}
+                 value={{info.values.itemname}}
+                 {% endif %}></td>
+        </tr>
+        <tr>
+            <td>Описание</td>
+            <td><input type="text" name="description"
+                 {% if info.values.description is defined %}
+                 value={{info.values.description}}
+                 {% endif %}></td>
+        </tr>
+        <tr>
+            <td>Цена</td>
+            <td><input type="number" name="price"
+                 {% if info.values.price is defined %}
+                 value={{info.values.price}}
+                 {% endif %}></td>
+        </tr>
+    </table>
+    <input type="submit" value="Добавить">
+</form>
+{% if info.message is defined %}
+{{info.message}}
+{% endif %}

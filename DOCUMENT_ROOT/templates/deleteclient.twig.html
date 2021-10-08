@@ -1,0 +1,11 @@
+{% if info.ok is defined %}
+<meta http-equiv="refresh" content="0; ?page=listclients">
+{% endif %}
+<ul>
+    <li><a href="?page=listorders">Список заказов</a></li>
+    <li><a href="?page=listclients">Список клиентов</a></li>
+    <li><a href="?page=catalog">Каталог товаров</a></li>
+</ul>
+{% if info.message is defined %}
+{{ info.message }}
+{% endif %}

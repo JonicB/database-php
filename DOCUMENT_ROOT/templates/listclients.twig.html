@@ -1,0 +1,57 @@
+<ul>
+    <li><a href="?page=listorders">Список заказов</a></li>
+    <li><a href="?page=listclients">Список клиентов</a></li>
+    <li><a href="?page=catalog">Каталог товаров</a></li>
+</ul>
+<form method="get" action="?page=listclients">
+    <input type="hidden" value="listclients" name="page">
+    <div>
+        <span>Фамилия: </span>
+        <input type="text" name="lastname">
+    </div>
+    <div>
+        <span>Год рождения: </span>
+        <input type="number" name="birthyear">
+    </div>
+    <div>
+        <span>Страница: </span>
+        <input type="number" value=1 name="limit">
+    </div>
+    <div>
+        <input type="submit" value="Найти">
+    </div>
+</form>
+{{ message }}
+{% if clients|length >0 %}
+<table border=1>
+    <tr>
+        <td>ID клиента</td>
+        <td>Фамилия</td>
+        <td>Имя</td>
+        <td>Дата рождения</td>
+        <td>Адрес</td>
+        <td>Количество заказов</td>
+        <td>Общая сумма заказов</td>
+    </tr>
+    {% for client in clients %}
+    <tr>
+        <td>{{ client.ID }}</td>
+        <td>{{ client.lastname }}</td>
+        <td>{{ client.firstname }}</td>
+        <td>{{ client.birthdate }}</td>
+        <td>{{ client.address }}</td>
+        <td>{{ client.total_order}}</td>
+        <td>{{ client.total_spent|round(1) }}</td>
+        <td><form method="post" action="?page=editclient&ID={{client.ID}}">
+            <input type="submit" value="Редактировать"></form></td>
+        <td><form method="post" action="?page=deleteclient&ID={{client.ID}}">
+            <input type="submit" value="Удалить"></form></td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+По вашему запросу ничего не найдено
+{% endif %}
+<form method="post" action="?page=addclient">
+    <input type="submit" value="Добавить клиента">
+</form>

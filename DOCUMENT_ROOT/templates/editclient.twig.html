@@ -1,0 +1,47 @@
+{% if info.ok is defined %}
+<meta http-equiv="refresh" content="0; ?page=listclients">
+{% endif %}
+<ul>
+    <li><a href="?page=listorders">Список заказов</a></li>
+    <li><a href="?page=listclients">Список клиентов</a></li>
+    <li><a href="?page=catalog">Каталог товаров</a></li>
+</ul>
+{% if info.ID is defined %}
+Редактировать данные клиента
+<form method="post" action="?page=editclient&ID={{ info.ID }}">
+    <table border=1>
+        <tr>
+            <td>Фамилия</td>
+            <td><input type="text" name="lastname"
+                       {% if info.lastname is defined %}
+                       value={{info.lastname}}
+                       {% endif %}}></td>
+        </tr>
+        <tr>
+            <td>Имя</td>
+            <td><input type="text" name="firstname"
+                       {% if info.firstname is defined %}
+                       value={{info.firstname}}
+                       {% endif %}}></td>
+        </tr>
+        <tr>
+            <td>Дата рождения</td>
+            <td><input type="date" name="birthdate" placeholder="yyyy-mm-dd"
+                       {% if info.birthdate is defined %}
+                       value={{info.birthdate}}
+                       {% endif %}}></td>
+        </tr>
+        <tr>
+            <td>Адрес</td>
+            <td><input type="text" name="address"
+                       {% if info.address is defined %}
+                       value={{info.address}}
+                       {% endif %}}></td>
+        </tr>
+    </table>
+    <input type="submit" value="Изменить">
+</form>
+{% endif %}
+{% if info.message is defined %}
+{{ info.message }}
+{% endif %}

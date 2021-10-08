@@ -1,0 +1,49 @@
+{% if order_info.ok is defined %}
+<meta http-equiv="refresh" content="0; ?page=orderinfo&oid={{ order_info.oid }}">
+{% endif %}
+<ul>
+    <li><a href="?page=listorders">Список заказов</a></li>
+    <li><a href="?page=listclients">Список клиентов</a></li>
+    <li><a href="?page=catalog">Каталог товаров</a></li>
+</ul>
+{% if order_info.oid is defined %}
+Добавить товар в заказ
+<form method="post" action="?page=addorderitem">
+    <input type="hidden" name="oid" value={{order_info.oid}}>
+    <table border=1>
+        <tr>
+            <td>Товар</td>
+            <td>
+                <select name="item_id">
+                    {% if order_info.item_id is defined %}
+                    {% for good in goods %}
+                    {% if good.item_id == order_info.item_id %}
+                    <option value={{ good.item_id }} selected>{{ good.itemname }}</option>
+                    {% else %}
+                    <option value={{ good.item_id }} >{{ good.itemname }}</option>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% else %}
+                    <option value=0 selected>Выберите товар...</option>
+                    {% for good in goods %}
+                    <option value={{ good.item_id }}>{{ good.itemname }}</option>
+                    {% endfor %}
+                    {% endif %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Количество</td>
+            <td><input type="number" name="quantity"
+                       {% if order_info.quantity is defined %}
+                       value={{order_info.quantity}}
+                       {% endif %}></td>
+        </tr>
+    </table>
+    <input type="submit" value="Добавить">
+</form>
+{% endif %}
+{% if order_info.message is defined %}
+{{ order_info.message }}
+{% endif %}
